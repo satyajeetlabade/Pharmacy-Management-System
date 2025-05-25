@@ -1,0 +1,41 @@
+<div class="container mt-4 " style="width: 500px;">
+  <h3>Create New Drug</h3>
+  <form [formGroup]="drugForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input formControlName="name" id="name" type="text" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea formControlName="description" id="description" class="form-control"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="price" class="form-label">Price</label>
+      <input formControlName="price" id="price" type="number" step="0.01" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="quantity" class="form-label">Quantity In Stock</label>
+      <input formControlName="quantityInStock" id="quantity" type="number" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+      <label for="expiryDate" class="form-label">Expiry Date</label>
+      <input formControlName="expiryDate" id="expiryDate" type="date" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+  <label for="drugType" class="form-label">Drug Type</label>
+  <select formControlName="drugType" id="drugType" class="form-select">
+    <option [ngValue]="null" disabled selected>Select drug type</option>
+    <option *ngFor="let type of drugTypes" [ngValue]="type.value">
+      {{ type.key }}
+    </option>
+  </select>
+</div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="drugForm.invalid">Save Drug</button>
+  </form>
+</div>
