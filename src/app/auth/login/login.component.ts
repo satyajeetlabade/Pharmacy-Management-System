@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +13,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  loginError: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private service: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]]
@@ -20,10 +27,19 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.loginError = null;
+
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
-      console.log('Login:', { email, password });
-      // TODO: Call API here
+      this.service.loginUser(this.loginForm.value).subscribe({
+        next: (response) => {
+          console.log(response);
+          alert('Login successful');
+          this.router.navigate(['/drugs']);
+        },
+        error: (error) => {
+          this.loginError = error.error?.message || 'Invalid credentials';
+        }
+      });
     }
   }
 }

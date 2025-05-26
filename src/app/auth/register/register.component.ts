@@ -43,7 +43,7 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.service.registerUser(this.registerForm.value).subscribe({
         next: (response) => {
-          alert(response);
+          alert("User Registered Successfully");
           this.registerForm.reset();
           this.router.navigate(['/login']);
         },
