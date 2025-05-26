@@ -47,7 +47,8 @@ export class DrugFormComponent implements OnInit {
         next:(respones) =>{
           alert("Drug created successfully");
           this.router.navigate(['/drugs']);
-        }
+        },
+        error: (error) => alert("Error while creating drug.")
       });
     }
   }

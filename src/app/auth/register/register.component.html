@@ -1,9 +1,11 @@
 <div class="container mt-5">
   <h2>Register</h2>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    
     <div class="mb-3">
       <label>Name</label>
-      <input formControlName="name" type="text" class="form-control" />
+      <input formControlName="name" type="text" class="form-control" 
+             [ngClass]="{'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" />
       <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched" class="text-danger">
         Name is required.
       </div>
@@ -11,7 +13,8 @@
 
     <div class="mb-3">
       <label>Email</label>
-      <input formControlName="email" type="email" class="form-control" />
+      <input formControlName="email" type="email" class="form-control"
+             [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}" />
       <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="text-danger">
         Valid email is required.
       </div>
@@ -19,9 +22,35 @@
 
     <div class="mb-3">
       <label>Password</label>
-      <input formControlName="password" type="password" class="form-control" />
-      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="text-danger">
-        Password is required.
+      <input formControlName="password" type="password" class="form-control"
+             [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" />
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors" class="text-danger">
+        <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</div>
+        <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters.</div>
+        <div *ngIf="registerForm.get('password')?.errors?.['pattern']">
+          Password must include uppercase, lowercase, number, and special character.
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Contact</label>
+      <input type="text" formControlName="contact" class="form-control"
+             [ngClass]="{'is-invalid': registerForm.get('contact')?.invalid && registerForm.get('contact')?.touched}" />
+      <div *ngIf="registerForm.get('contact')?.invalid && registerForm.get('contact')?.touched" class="text-danger">
+        Contact must be 10 digits.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="userRole" class="form-label">User Role</label>
+      <select formControlName="userRole" id="userRole" class="form-select"
+              [ngClass]="{'is-invalid': registerForm.get('userRole')?.invalid && registerForm.get('userRole')?.touched}">
+        <option value="" disabled>Select User Role</option>
+        <option *ngFor="let role of userRole" [ngValue]="role.value">{{ role.key }}</option>
+      </select>
+      <div *ngIf="registerForm.get('userRole')?.invalid && registerForm.get('userRole')?.touched" class="text-danger">
+        Please select a user role.
       </div>
     </div>
 

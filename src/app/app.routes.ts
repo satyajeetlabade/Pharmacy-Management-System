@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { DrugListComponent } from './features/drugs/components/drug-list/drug-list.component';
-import { DoctorComponent } from './features/doctor/components/doctor/doctor.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { DrugFormComponent } from './features/drugs/components/drug-form/drug-form.component';
