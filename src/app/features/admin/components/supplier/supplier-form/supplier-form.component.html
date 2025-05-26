@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h3>Add Supplier</h3>
+  <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name" />
+      <div *ngIf="supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched" class="text-danger">
+        Name is required (2–100 characters).
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Email</label>
+      <input type="email" class="form-control" formControlName="contactEmail" />
+      <div *ngIf="supplierForm.get('contactEmail')?.invalid && supplierForm.get('contactEmail')?.touched" class="text-danger">
+        Enter a valid email.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Phone</label>
+      <input type="text" class="form-control" formControlName="contactNumber" />
+      <div *ngIf="supplierForm.get('contactNumber')?.invalid && supplierForm.get('contactNumber')?.touched" class="text-danger">
+        Invalid phone number format.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label>Address</label>
+      <textarea class="form-control" formControlName="address"></textarea>
+    </div>
+
+    <button class="btn btn-primary" [disabled]="supplierForm.invalid">Submit</button>
+  </form>
+</div>
