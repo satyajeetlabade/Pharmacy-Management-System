@@ -1,0 +1,52 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
+          <i class="bi bi-plus-circle me-2 fs-5"></i>
+          <h5 class="mb-0">Add Supplier</h5>
+        </div>
+
+        <div class="card-body bg-white">
+          <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Name</label>
+              <input type="text" class="form-control" formControlName="name" />
+              <div *ngIf="supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched" class="text-danger">
+                Name is required (2–100 characters).
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Email</label>
+              <input type="email" class="form-control" formControlName="contactEmail" />
+              <div *ngIf="supplierForm.get('contactEmail')?.invalid && supplierForm.get('contactEmail')?.touched" class="text-danger">
+                Enter a valid email.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Phone</label>
+              <input type="text" class="form-control" formControlName="contactNumber" />
+              <div *ngIf="supplierForm.get('contactNumber')?.invalid && supplierForm.get('contactNumber')?.touched" class="text-danger">
+                Invalid phone number format.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Address</label>
+              <textarea class="form-control" formControlName="address" rows="3"></textarea>
+            </div>
+
+            <div class="text-end">
+              <button class="btn btn-success px-4" [disabled]="supplierForm.invalid">
+                <i class="bi bi-save me-1"></i>Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

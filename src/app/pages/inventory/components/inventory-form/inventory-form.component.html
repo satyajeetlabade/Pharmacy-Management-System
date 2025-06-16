@@ -1,0 +1,113 @@
+<div class="inventory-form-container container p-4 shadow rounded bg-light mt-3">
+  <h2 class="mb-4">Add Inventory</h2>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- Supplier Dropdown -->
+    <div class="form-group mb-3">
+      <label for="supplierId" class="form-label fw-bold">Supplier</label>
+      <select formControlName="supplierId" id="supplierId" class="form-select">
+        <option value="" disabled>Select Supplier</option>
+        <option *ngFor="let supplier of suppliers" [value]="supplier.id">
+          {{ supplier.name }}
+        </option>
+      </select>
+      <div *ngIf="form.get('supplierId')?.touched && form.get('supplierId')?.invalid" class="text-danger">
+        Supplier is required.
+      </div>
+    </div>
+
+    <!-- Purchase Date -->
+    <div class="form-group mb-3">
+      <label for="purchaseDate" class="form-label fw-bold">Purchase Date</label>
+      <input type="date" formControlName="purchaseDate" id="purchaseDate" class="form-control" />
+      <div *ngIf="form.get('purchaseDate')?.touched && form.get('purchaseDate')?.invalid" class="text-danger">
+        Purchase date is required.
+      </div>
+    </div>
+
+    <!-- Drug Entries -->
+    <div formArrayName="inventories">
+      <div *ngFor="let item of inventories.controls; let i = index" [formGroupName]="i" class="mb-4 p-3 border rounded">
+        <h5 class="mb-3">Drug Entry {{ i + 1 }}</h5>
+
+        <div class="form-row row g-3">
+          <!-- Drug Dropdown -->
+          <div class="form-group col-md-4">
+            <label class="form-label fw-semibold">Drug</label>
+            <select formControlName="drugId" class="form-select">
+              <option value="" disabled>Select Drug</option>
+              <option *ngFor="let drug of drugs" [value]="drug.id">{{ drug.name }}</option>
+            </select>
+            <div *ngIf="item.get('drugId')?.touched && item.get('drugId')?.invalid" class="text-danger">
+              Drug is required.
+            </div>
+          </div>
+
+          <!-- Batch Number -->
+          <div class="form-group col-md-4">
+            <label class="form-label fw-semibold">Batch Number</label>
+            <input type="text" formControlName="batchNumber" class="form-control" />
+            <div *ngIf="item.get('batchNumber')?.touched && item.get('batchNumber')?.invalid" class="text-danger">
+              Batch number is required.
+            </div>
+          </div>
+
+          <!-- Quantity -->
+          <div class="form-group col-md-3">
+            <label class="form-label fw-semibold">Quantity</label>
+            <input type="number" formControlName="quantity" class="form-control" min="1" />
+            <div *ngIf="item.get('quantity')?.touched && item.get('quantity')?.invalid" class="text-danger">
+              Quantity must be greater than 0.
+            </div>
+          </div>
+
+          <!-- Remove Button -->
+          <div class="col-md-1 d-flex align-items-end">
+            <button type="button" class="btn btn-outline-danger" (click)="removeInventoryItem(i)" *ngIf="inventories.length > 1">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Another Drug -->
+    <div class="form-group mt-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="addInventoryItem()">+ Add Another Drug</button>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group mt-4">
+      <button type="submit" class="btn btn-success w-100" [disabled]="form.invalid">Submit Inventory</button>
+    </div>
+  </form>
+
+  <!-- Success Response Table -->
+  <div *ngIf="inventoryResponseList.length > 0" class="mt-5">
+    <h3 class="text-success">Inventory Successfully Added</h3>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped mt-3">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Drug Name</th>
+            <th>Supplier Name</th>
+            <th>Batch Number</th>
+            <th>Quantity</th>
+            <th>Purchase Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let entry of inventoryResponseList">
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.drugName }}</td>
+            <td>{{ entry.supplierName }}</td>
+            <td>{{ entry.batchNumber }}</td>
+            <td>{{ entry.quantity }}</td>
+            <td>{{ entry.purchaseDate | date: 'yyyy-MM-dd' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+.landing-page header {
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+}
+
+.landing-page h1,
+.landing-page h2 {
+  color: #2e7d32;
+}

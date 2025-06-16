@@ -1,0 +1,56 @@
+<div class="container py-5">
+  <div class="card shadow rounded-4 border-0">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4">
+      <h4 class="mb-0 d-flex align-items-center gap-2">
+        <i class="bi bi-capsule fs-4"></i> Drug Inventory
+      </h4>
+      <button *ngIf="isAdmin" class="btn btn-light btn-sm fw-semibold" [routerLink]="['/drugs/create']">
+        <i class="bi bi-plus-circle me-1"></i>Create Drug
+      </button>
+    </div>
+    <div class="card-body bg-white p-0">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover mb-0 text-center align-middle">
+          <thead class="table-success text-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col" class="text-start ps-3">Name</th>
+              <th scope="col" class="text-end pe-3">Price (₹)</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Expiry</th>
+              <th scope="col">Type</th>
+              <th *ngIf="isAdmin" scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let drug of drugs" [class.table-light]="drug.quantityInStock <= 5">
+              <td>{{ drug.id }}</td>
+              <td class="text-start ps-3">{{ drug.name }}</td>
+              <td class="text-end pe-3">₹ {{ drug.price | number:'1.2-2' }}</td>
+              <td>{{ drug.quantityInStock }}</td>
+              <td>{{ drug.expiryDate | date:'yyyy-MM-dd' }}</td>
+              <td>{{ drug.drugType }}</td>
+              <td *ngIf="isAdmin">
+                <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/drugs/edit', drug.id]"
+                  [attr.aria-label]="'Edit ' + drug.name">
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+
+                <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(drug.id!)"
+                  [attr.aria-label]="'Delete ' + drug.name">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+
+              </td>
+            </tr>
+            <tr *ngIf="drugs.length === 0">
+              <td [attr.colspan]="isAdmin ? 7 : 6" class="text-center text-muted py-4 fst-italic">
+                No drugs found.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

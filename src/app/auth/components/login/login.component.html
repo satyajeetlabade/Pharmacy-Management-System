@@ -1,0 +1,64 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow rounded-4 border-0">
+        <div class="card-header bg-success text-white text-center py-3 rounded-top-4">
+          <h3 class="mb-0 d-flex justify-content-center align-items-center gap-2">
+            <i class="bi bi-box-arrow-in-right fs-4"></i> Login
+          </h3>
+        </div>
+        <div class="card-body bg-light p-4">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+
+            <!-- Email Field -->
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Email</label>
+              <input id="email" type="email" formControlName="email" class="form-control" autocomplete="email"
+                     placeholder="example@domain.com"
+                     [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}" />
+              <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="invalid-feedback">
+                Please enter a valid email.
+              </div>
+            </div>
+
+            <!-- Password Field with Toggle -->
+            <div class="mb-3">
+              <label for="password" class="form-label fw-semibold">Password</label>
+              <div class="input-group">
+                <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                       class="form-control" autocomplete="current-password"
+                       placeholder="********"
+                       [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}" />
+                <button type="button" class="btn btn-outline-secondary" (click)="showPassword = !showPassword" tabindex="-1">
+                  <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+                </button>
+              </div>
+              <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
+                Password is required.
+              </div>
+            </div>
+
+            <!-- Error Alert -->
+            <div *ngIf="loginError" class="alert alert-danger py-2 small" role="alert" aria-live="assertive">
+              {{ loginError }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success btn-lg fw-semibold" [disabled]="loginForm.invalid || isSubmitting">
+                <span *ngIf="!isSubmitting">
+                  <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                </span>
+                <span *ngIf="isSubmitting">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Logging in...
+                </span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

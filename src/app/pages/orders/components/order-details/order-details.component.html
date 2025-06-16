@@ -1,0 +1,58 @@
+<div class="container py-5">
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
+      <i class="bi bi-receipt me-2 fs-5"></i>
+      <h5 class="mb-0">Order Details - ID: {{ order.id }}</h5>
+    </div>
+
+    <div class="card-body bg-white">
+      <div *ngIf="loading" class="alert alert-info">Loading...</div>
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+      <div *ngIf="order">
+        <div class="row mb-3">
+          <div class="col-md-6"><strong>Doctor:</strong> {{ order.doctorName }}</div>
+          <div class="col-md-6"><strong>Status:</strong> {{ order.status }}</div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6"><strong>Order Date:</strong> {{ order.orderDate | date: 'medium' }}</div>
+          <div class="col-md-6" *ngIf="order.verifiedBy"><strong>Verified By:</strong> {{ order.verifiedBy }}</div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-6" *ngIf="order.verifiedAt"><strong>Verified At:</strong> {{ order.verifiedAt | date: 'medium' }}</div>
+          <div class="col-md-6" *ngIf="order.pickedUpAt"><strong>Picked Up At:</strong> {{ order.pickedUpAt | date: 'medium' }}</div>
+        </div>
+
+        <div class="mt-4">
+          <h6 class="fw-semibold mb-3">Ordered Items</h6>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered align-middle">
+              <thead class="table-success">
+                <tr>
+                  <th>Drug Name</th>
+                  <th>Quantity</th>
+                  <th>Unit Price</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of order.items">
+                  <td>{{ item.drugName }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.unitPrice | currency :'INR':'symbol' }}</td>
+                  <td>{{ item.quantity * item.unitPrice | currency :'INR':'symbol' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="text-end mt-3 fs-5 fw-semibold text-success">
+          Total Amount: {{ order.totalAmount | currency :'INR':'symbol' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

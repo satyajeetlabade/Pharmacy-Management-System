@@ -1,0 +1,27 @@
+<!-- src/app/components/inventory/inventory.component.html -->
+<div class="p-4">
+  <h2>Inventory List</h2>
+  <button class="btn btn-success btn-sm mb-2" [routerLink]="['/admin/inventory/add']">Add Stock</button>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Drug</th>
+        <th>Supplier</th>
+        <th>Batch</th>
+        <th>Quantity</th>
+        <th>Supplied Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of inventories">
+        <td>{{ item.id }}</td>
+        <td>{{ item.drugName }}</td>
+        <td>{{ item.supplierName }}</td>
+        <td>{{ item.batchNumber }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.purchaseDate | date }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

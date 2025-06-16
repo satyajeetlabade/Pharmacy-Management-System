@@ -1,0 +1,59 @@
+<div class="container py-5">
+  <div class="card shadow-sm border-0 rounded-4">
+    <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
+      <i class="bi bi-receipt-cutoff me-2 fs-5"></i>
+      <h5 class="mb-0">Orders</h5>
+    </div>
+
+    <div class="card-body bg-white">
+      <div *ngIf="loading" class="alert alert-info">Loading orders...</div>
+      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+      <div *ngIf="!loading && orders.length > 0" class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-success text-dark">
+            <tr>
+              <th>ID</th>
+              <th>Doctor</th>
+              <th>Order Date</th>
+              <th>Status</th>
+              <th>Total Amount</th>
+              <th *ngIf="!isDoctor">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of orders" (click)="goToDetails(order.id)" style="cursor: pointer;">
+              <td>{{ order.id }}</td>
+              <td>{{ order.doctorName }}</td>
+              <td>{{ order.orderDate | date: 'medium' }}</td>
+              <td>{{ order.status }}</td>
+              <td>{{ order.totalAmount | currency: 'INR' : 'symbol' }}</td>
+              <td *ngIf="!isDoctor">
+                <button class="btn btn-sm btn-outline-success me-2"
+                        (click)="onVerify(order.id); $event.stopPropagation()"
+                        [disabled]="order.status !== 'Created'">
+                  <i class="bi bi-check-circle me-1"></i>Verify
+                </button>
+
+                <button class="btn btn-sm btn-outline-primary"
+                        (click)="onPickup(order.id); $event.stopPropagation()"
+                        [disabled]="order.status !== 'Verified'">
+                  <i class="bi bi-truck me-1"></i>Pick Up
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="!loading && orders.length === 0" class="alert alert-warning mt-3">
+        No orders found.
+      </div>
+      <div *ngIf="isDoctor" class="mt-4 text-end">
+        <button type="button" class="btn btn-success px-4" [routerLink]="['/orders/create']">
+          <i class="bi bi-plus-circle me-1"></i>Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

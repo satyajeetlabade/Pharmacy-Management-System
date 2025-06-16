@@ -1,0 +1,95 @@
+<div class="container py-5">
+  <div class="card shadow rounded-4 border-0">
+    <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
+      <i class="bi bi-bar-chart-fill fs-4 me-2"></i>
+      <h4 class="mb-0">Sales Summary Report</h4>
+    </div>
+
+    <div class="card-body bg-white">
+      <!-- Date Filters -->
+      <form class="row g-3 align-items-end mb-4" (ngSubmit)="fetchSummary()">
+        <div class="col-md-4">
+          <label for="fromDate" class="form-label fw-semibold">From Date</label>
+          <input
+            type="date"
+            id="fromDate"
+            [(ngModel)]="fromDate"
+            name="fromDate"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="col-md-4">
+          <label for="toDate" class="form-label fw-semibold">To Date</label>
+          <input
+            type="date"
+            id="toDate"
+            [(ngModel)]="toDate"
+            name="toDate"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="col-md-4 d-grid">
+          <button
+            type="submit"
+            class="btn btn-success fw-semibold"
+            [disabled]="!fromDate || !toDate"
+          >
+            <i class="bi bi-search me-1"></i> Get Report
+          </button>
+        </div>
+      </form>
+
+      <!-- Error Display -->
+      <div *ngIf="error" class="alert alert-danger rounded-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
+      </div>
+
+      <!-- Sales Summary Data -->
+      <div *ngIf="summary" class="text-dark">
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <p><strong>Total Orders:</strong> {{ summary.totalOrders }}</p>
+            <p><strong>Total Revenue:</strong> {{ summary.totalRevenue | currency : 'INR' }}</p>
+            <p><strong>Total Items Sold:</strong> {{ summary.totalItemsSold }}</p>
+          </div>
+          <div class="col-md-6">
+            <p><strong>Average Order Value:</strong> {{ summary.averageOrderValue | currency : 'INR' }}</p>
+            <p><strong>Distinct Drugs Sold:</strong> {{ summary.distinctDrugsSold }}</p>
+          </div>
+        </div>
+
+        <!-- Top Selling Drugs -->
+        <div class="mb-4">
+          <h5 class="fw-semibold border-bottom pb-2">Top Selling Drugs</h5>
+          <ul class="list-group shadow-sm rounded-3">
+            <li
+              *ngFor="let drug of summary.topSellingDrugs"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {{ drug.drugName }} <span class="badge bg-success">{{ drug.unitsSold }} units</span>
+              <span class="badge bg-success rounded-pill">{{ drug.revenue | currency : 'INR' }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Sales by Day -->
+        <div>
+          <h5 class="fw-semibold border-bottom pb-2">Sales by Day</h5>
+          <ul class="list-group shadow-sm rounded-3">
+            <li
+              *ngFor="let day of summary.salesByDay"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              {{ day.day | date:'mediumDate' }}
+              <span class="badge bg-info text-dark rounded-pill">{{ day.revenue | currency : 'INR' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

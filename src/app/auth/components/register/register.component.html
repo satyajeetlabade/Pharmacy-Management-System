@@ -1,0 +1,96 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow rounded-4 border-0">
+        <div class="card-header bg-success text-white text-center py-3 rounded-top-4">
+          <h3 class="mb-0 d-flex justify-content-center align-items-center gap-2">
+            <i class="bi bi-person-plus-fill fs-4"></i> Register
+          </h3>
+        </div>
+        <div class="card-body bg-light p-4">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+            <div *ngIf="registerError" class="alert alert-danger" role="alert" aria-live="polite">
+              {{ registerError }}
+            </div>
+
+            <!-- Name -->
+            <div class="mb-3">
+              <label for="name" class="form-label fw-semibold">Name</label>
+              <input id="name" type="text" formControlName="name" class="form-control"
+                placeholder="Enter your full name"
+                [ngClass]="{'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" />
+              <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+                class="invalid-feedback">
+                Name is required.
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Email</label>
+              <input id="email" type="email" formControlName="email" class="form-control"
+                placeholder="example@domain.com"
+                [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}" />
+              <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                class="invalid-feedback">
+                Valid email is required.
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password" class="form-label fw-semibold">Password</label>
+              <input id="password" type="password" formControlName="password" class="form-control"
+                placeholder="At least 8 characters"
+                [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" />
+              <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors"
+                class="invalid-feedback">
+                <div *ngIf="registerForm.get('password')?.errors?.['required']">Password is required.</div>
+                <div *ngIf="registerForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters.
+                </div>
+                <div *ngIf="registerForm.get('password')?.errors?.['pattern']">
+                  Password must include uppercase, lowercase, number, and special character.
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact -->
+            <div class="mb-3">
+              <label for="contact" class="form-label fw-semibold">Contact</label>
+              <input id="contact" type="text" formControlName="contact" class="form-control"
+                placeholder="10-digit phone number"
+                [ngClass]="{'is-invalid': registerForm.get('contact')?.invalid && registerForm.get('contact')?.touched}" />
+              <div *ngIf="registerForm.get('contact')?.invalid && registerForm.get('contact')?.touched"
+                class="invalid-feedback">
+                Contact must be 10 digits.
+              </div>
+            </div>
+
+            <!-- Role -->
+            <div class="mb-4">
+              <label for="role" class="form-label fw-semibold">User Role</label>
+              <select id="role" formControlName="role" class="form-select"
+                [ngClass]="{'is-invalid': registerForm.get('role')?.invalid && registerForm.get('role')?.touched}">
+                <option value="" disabled>Select User Role</option>
+                <option *ngFor="let rol of roles" [value]="rol.value">{{ rol.key }}</option>
+              </select>
+              <div *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched"
+                class="invalid-feedback">
+                Please select a user role.
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-success btn-lg fw-semibold"
+              [disabled]="registerForm.invalid || isSubmitting">
+              <i class="bi bi-person-plus me-2"></i>
+              <span *ngIf="!isSubmitting">Register</span>
+              <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status"
+                aria-hidden="true"></span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
