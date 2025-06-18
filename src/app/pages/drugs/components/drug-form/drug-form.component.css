@@ -1,0 +1,10 @@
+@media (min-width: 768px) {
+  .rounded-start-4 {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+  .rounded-end-4 {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}

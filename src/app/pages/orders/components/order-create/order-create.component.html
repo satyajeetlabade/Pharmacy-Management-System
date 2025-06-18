@@ -1,63 +1,111 @@
 <div class="container py-5">
-  <div class="card shadow-sm border-0 rounded-4">
-    <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
-      <i class="bi bi-bag-plus me-2 fs-5"></i>
-      <h5 class="mb-0">Create New Order</h5>
-    </div>
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <div class="row g-4 align-items-stretch">
 
-    <div class="card-body bg-white">
-      <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
-        <!-- Doctor Info -->
-        <div class="mb-4">
-          <label class="form-label fw-semibold">Doctor</label>
-          <input type="text" class="form-control" [value]="doctorName" readonly />
+        <!-- Left Context Panel -->
+        <div class="col-md-5 d-flex flex-column justify-content-center bg-success text-white rounded-start-4 p-4 shadow">
+          <div>
+            <h3 class="fw-bold mb-3">
+              <i class="bi bi-bag-plus me-2 fs-3"></i> Order Prescription
+            </h3>
+            <ul class="list-unstyled">
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-person-vcard me-2 fs-5"></i>
+                <span>Doctor's name is auto-filled from current login context.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-capsule-pill me-2 fs-5"></i>
+                <span>Select drugs prescribed to the patient.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-123 me-2 fs-5"></i>
+                <span>Specify exact quantities as per prescription.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-plus-circle me-2 fs-5"></i>
+                <span>Add multiple drugs in a single order if needed.</span>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div formArrayName="items">
-          <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i" class="border rounded p-3 mb-3">
-            <div class="row g-3 align-items-end">
-              <div class="col-md-6">
-                <label class="form-label">Drug</label>
-                <select formControlName="drugId" class="form-select"
-                        [ngClass]="{'is-invalid': item.get('drugId')?.invalid && item.get('drugId')?.touched}">
-                  <option value="" disabled>Select Drug</option>
-                  <option *ngFor="let drug of drugs" [value]="drug.id">{{ drug.name }}</option>
-                </select>
-                <div *ngIf="item.get('drugId')?.invalid && item.get('drugId')?.touched" class="invalid-feedback">
-                  Drug is required.
-                </div>
-              </div>
+        <!-- Right Form Panel -->
+        <div class="col-md-7">
+          <div class="card shadow rounded-end-4 border-0 h-100">
+            <div class="card-header bg-light rounded-top-end-4 d-flex align-items-center gap-2 border-bottom">
+              <i class="bi bi-clipboard-plus text-success fs-5"></i>
+              <h5 class="mb-0 text-success">Prescription Order Form</h5>
+            </div>
 
-              <div class="col-md-4">
-                <label class="form-label">Quantity</label>
-                <input type="number" formControlName="quantity" min="1" class="form-control"
-                       [ngClass]="{'is-invalid': item.get('quantity')?.invalid && item.get('quantity')?.touched}" />
-                <div *ngIf="item.get('quantity')?.invalid && item.get('quantity')?.touched" class="invalid-feedback">
-                  Quantity must be at least 1.
-                </div>
-              </div>
+            <div class="card-body bg-white px-4 py-4">
+              <form [formGroup]="orderForm" (ngSubmit)="submitOrder()">
 
-              <div class="col-md-2 text-end">
-                <button type="button" class="btn btn-outline-danger w-100"
-                        (click)="removeItem(i)" [disabled]="items.length === 1">
-                  <i class="bi bi-x-circle"></i> Remove
-                </button>
-              </div>
+                <!-- Doctor Name (readonly) -->
+                <div class="mb-4">
+                  <label class="form-label fw-semibold">Doctor</label>
+                  <input type="text" class="form-control" [value]="doctorName" readonly />
+                </div>
+
+                <!-- Drug Entries -->
+                <div formArrayName="items">
+                  <div *ngFor="let item of items.controls; let i = index" [formGroupName]="i"
+                       class="p-3 border rounded bg-light-subtle mb-3">
+                    <h6 class="text-success mb-3">Drug Entry {{ i + 1 }}</h6>
+                    <div class="row g-3">
+
+                      <!-- Drug -->
+                      <div class="col-md-6">
+                        <label class="form-label fw-semibold">Drug</label>
+                        <select formControlName="drugId" class="form-select"
+                                [ngClass]="{ 'is-invalid': item.get('drugId')?.touched && item.get('drugId')?.invalid }">
+                          <option value="" disabled>Select Drug</option>
+                          <option *ngFor="let drug of drugs" [value]="drug.id">{{ drug.name }}</option>
+                        </select>
+                        <div class="invalid-feedback">Drug is required.</div>
+                      </div>
+
+                      <!-- Quantity -->
+                      <div class="col-md-4">
+                        <label class="form-label fw-semibold">Quantity</label>
+                        <input type="number" formControlName="quantity" min="1" class="form-control"
+                               [ngClass]="{ 'is-invalid': item.get('quantity')?.touched && item.get('quantity')?.invalid }"/>
+                        <div class="invalid-feedback">Quantity must be at least 1.</div>
+                      </div>
+
+                      <!-- Remove -->
+                      <div class="col-md-2 d-flex align-items-end justify-content-center">
+                        <button type="button" class="btn btn-outline-danger px-2"
+                                (click)="removeItem(i)" *ngIf="items.length > 1">
+                          ✕
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Add More Drugs -->
+                <div class="text-end mb-4">
+                  <button type="button" class="btn btn-outline-secondary" (click)="addItem()">
+                    + Add Another Drug
+                  </button>
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                  <button type="submit" class="btn btn-success w-100 btn-lg" [disabled]="orderForm.invalid || loading">
+                    <i class="bi bi-check-circle me-1"></i>
+                    {{ loading ? 'Placing Order...' : 'Place Order' }}
+                  </button>
+                </div>
+
+              </form>
             </div>
           </div>
         </div>
 
-        <div class="d-flex justify-content-between align-items-center mt-4">
-          <button type="button" class="btn btn-outline-secondary" (click)="addItem()">
-            <i class="bi bi-plus-circle me-1"></i>Add Drug
-          </button>
-
-          <button type="submit" class="btn btn-success px-4" >
-            <i class="bi bi-check-circle me-1"></i>
-            {{ loading ? 'Placing Order...' : 'Place Order' }}
-          </button>
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

@@ -1,56 +1,89 @@
 <div class="container py-5">
   <div class="card shadow-sm border-0 rounded-4">
+    <!-- Header -->
     <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
-      <i class="bi bi-receipt me-2 fs-5"></i>
-      <h5 class="mb-0">Order Details - ID: {{ order.id }}</h5>
+      <i class="bi bi-receipt fs-5 me-2"></i>
+      <h5 class="mb-0">Order Details – ID: {{ order.id }}</h5>
     </div>
 
+    <!-- Body -->
     <div class="card-body bg-white">
-      <div *ngIf="loading" class="alert alert-info">Loading...</div>
-      <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+      <div *ngIf="loading" class="alert alert-info d-flex align-items-center">
+        <i class="bi bi-hourglass-split me-2"></i> Loading order information...
+      </div>
+      <div *ngIf="error" class="alert alert-danger d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ error }}
+      </div>
 
+      <!-- Order Details -->
       <div *ngIf="order">
         <div class="row mb-3">
-          <div class="col-md-6"><strong>Doctor:</strong> {{ order.doctorName }}</div>
-          <div class="col-md-6"><strong>Status:</strong> {{ order.status }}</div>
+          <div class="col-md-6">
+            <span class="fw-semibold"><i class="bi bi-person-badge me-1"></i>Doctor:</span>
+            {{ order.doctorName }}
+          </div>
+          <div class="col-md-6">
+            <span class="fw-semibold"><i class="bi bi-info-circle me-1"></i>Status:</span>
+            <span [ngClass]="{
+              'badge bg-warning text-dark': order.status === 'Pending',
+              'badge bg-info text-dark': order.status === 'Verified',
+              'badge bg-success': order.status === 'Completed'
+            }">{{ order.status }}</span>
+          </div>
         </div>
 
         <div class="row mb-3">
-          <div class="col-md-6"><strong>Order Date:</strong> {{ order.orderDate | date: 'medium' }}</div>
-          <div class="col-md-6" *ngIf="order.verifiedBy"><strong>Verified By:</strong> {{ order.verifiedBy }}</div>
+          <div class="col-md-6">
+            <span class="fw-semibold"><i class="bi bi-calendar-check me-1"></i>Order Date:</span>
+            {{ order.orderDate | date: 'medium' }}
+          </div>
+          <div class="col-md-6" *ngIf="order.verifiedBy">
+            <span class="fw-semibold"><i class="bi bi-shield-check me-1"></i>Verified By:</span>
+            {{ order.verifiedBy }}
+          </div>
         </div>
 
         <div class="row mb-3">
-          <div class="col-md-6" *ngIf="order.verifiedAt"><strong>Verified At:</strong> {{ order.verifiedAt | date: 'medium' }}</div>
-          <div class="col-md-6" *ngIf="order.pickedUpAt"><strong>Picked Up At:</strong> {{ order.pickedUpAt | date: 'medium' }}</div>
+          <div class="col-md-6" *ngIf="order.verifiedAt">
+            <span class="fw-semibold"><i class="bi bi-clock-history me-1"></i>Verified At:</span>
+            {{ order.verifiedAt | date: 'medium' }}
+          </div>
+          <div class="col-md-6" *ngIf="order.pickedUpAt">
+            <span class="fw-semibold"><i class="bi bi-truck me-1"></i>Picked Up At:</span>
+            {{ order.pickedUpAt | date: 'medium' }}
+          </div>
         </div>
 
+        <!-- Ordered Items Table -->
         <div class="mt-4">
-          <h6 class="fw-semibold mb-3">Ordered Items</h6>
+          <h6 class="fw-semibold mb-3">
+            <i class="bi bi-bag-check-fill text-success me-1"></i>Ordered Items
+          </h6>
           <div class="table-responsive">
-            <table class="table table-striped table-hover table-bordered align-middle">
+            <table class="table table-hover table-bordered align-middle shadow-sm">
               <thead class="table-success">
                 <tr>
-                  <th>Drug Name</th>
-                  <th>Quantity</th>
-                  <th>Unit Price</th>
-                  <th>Total</th>
+                  <th><i class="bi bi-capsule me-1"></i>Drug Name</th>
+                  <th><i class="bi bi-list-ol me-1"></i>Quantity</th>
+                  <th><i class="bi bi-currency-rupee me-1"></i>Unit Price</th>
+                  <th><i class="bi bi-calculator me-1"></i>Total</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let item of order.items">
-                  <td>{{ item.drugName }}</td>
+                  <td class="text-capitalize">{{ item.drugName }}</td>
                   <td>{{ item.quantity }}</td>
-                  <td>{{ item.unitPrice | currency :'INR':'symbol' }}</td>
-                  <td>{{ item.quantity * item.unitPrice | currency :'INR':'symbol' }}</td>
+                  <td>{{ item.unitPrice | currency:'INR':'symbol' }}</td>
+                  <td>{{ item.quantity * item.unitPrice | currency:'INR':'symbol' }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
 
-        <div class="text-end mt-3 fs-5 fw-semibold text-success">
-          Total Amount: {{ order.totalAmount | currency :'INR':'symbol' }}
+        <!-- Total Amount -->
+        <div class="text-end mt-3 fs-5 fw-bold text-success border-top pt-3">
+          <i class="bi bi-wallet2 me-2"></i>Total Amount: {{ order.totalAmount | currency:'INR':'symbol' }}
         </div>
       </div>
     </div>

@@ -1,51 +1,90 @@
 <div class="container py-5">
-  <div class="card shadow rounded-4 border-0">
-    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4">
+  <div class="card shadow-lg rounded-4 border-0 overflow-hidden">
+    <!-- Card Header -->
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4 px-4 py-3">
       <h4 class="mb-0 d-flex align-items-center gap-2">
         <i class="bi bi-capsule fs-4"></i> Drug Inventory
       </h4>
-      <button *ngIf="isAdmin" class="btn btn-light btn-sm fw-semibold" [routerLink]="['/drugs/create']">
-        <i class="bi bi-plus-circle me-1"></i>Create Drug
+      <button
+        *ngIf="isAdmin"
+        class="btn btn-outline-light btn-sm fw-semibold d-flex align-items-center gap-1"
+        [routerLink]="['/drugs/create']"
+      >
+        <i class="bi bi-plus-circle"></i> Create Drug
       </button>
     </div>
-    <div class="card-body bg-white p-0">
+
+    <!-- Card Body -->
+    <div class="card-body bg-light px-0 pt-0">
       <div class="table-responsive">
-        <table class="table table-bordered table-hover mb-0 text-center align-middle">
-          <thead class="table-success text-dark">
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col" class="text-start ps-3">Name</th>
-              <th scope="col" class="text-end pe-3">Price (₹)</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Expiry</th>
-              <th scope="col">Type</th>
-              <th *ngIf="isAdmin" scope="col" class="text-center">Actions</th>
+        <table class="table table-hover table-bordered align-middle mb-0">
+          <thead class="table-light text-dark">
+            <tr class="text-uppercase text-secondary small">
+              <th>ID</th>
+              <th class="text-start ps-4">Drug Name</th>
+              <th class="text-end pe-4">Price (₹)</th>
+              <th class="text-center">Stock</th>
+              <th class="text-center">Expiry Date</th>
+              <th class="text-center">Type</th>
+              <th *ngIf="isAdmin" class="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let drug of drugs" [class.table-light]="drug.quantityInStock <= 5">
-              <td>{{ drug.id }}</td>
-              <td class="text-start ps-3">{{ drug.name }}</td>
-              <td class="text-end pe-3">₹ {{ drug.price | number:'1.2-2' }}</td>
-              <td>{{ drug.quantityInStock }}</td>
-              <td>{{ drug.expiryDate | date:'yyyy-MM-dd' }}</td>
-              <td>{{ drug.drugType }}</td>
-              <td *ngIf="isAdmin">
-                <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/drugs/edit', drug.id]"
-                  [attr.aria-label]="'Edit ' + drug.name">
-                  <i class="bi bi-pencil-square"></i> Edit
-                </button>
-
-                <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(drug.id!)"
-                  [attr.aria-label]="'Delete ' + drug.name">
-                  <i class="bi bi-trash"></i> Delete
-                </button>
-
+            <tr
+              *ngFor="let drug of drugs"
+              [class.table-warning]="drug.quantityInStock <= 5"
+              class="bg-white"
+            >
+              <td class="fw-semibold">{{ drug.id }}</td>
+              <td class="text-start ps-4 text-capitalize fw-medium">
+                <i class="bi bi-capsule text-success me-2"></i>{{ drug.name }}
+              </td>
+              <td class="text-end pe-4 text-success">₹ {{ drug.price | number: '1.2-2' }}</td>
+              <td class="text-center">
+                <span
+                  class="badge rounded-pill px-3 py-1 fw-normal"
+                  [ngClass]="{
+                    'bg-success-subtle text-success': drug.quantityInStock > 10,
+                    'bg-warning-subtle text-dark': drug.quantityInStock <= 10 && drug.quantityInStock > 5,
+                    'bg-danger-subtle text-danger': drug.quantityInStock <= 5
+                  }"
+                >
+                  {{ drug.quantityInStock }}
+                </span>
+              </td>
+              <td class="text-center">
+                
+                  {{ drug.expiryDate | date: 'yyyy-MM-dd' }}
+              </td>
+              <td class="text-center">
+                <span class="badge bg-secondary-subtle text-dark text-capitalize px-3 py-1 fw-medium">
+                  {{ drug.drugType }}
+                </span>
+              </td>
+              <td *ngIf="isAdmin" class="text-center">
+                <div class="d-flex justify-content-center gap-2">
+                  <button
+                    class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1"
+                    [routerLink]="['/drugs/edit', drug.id]"
+                    [attr.aria-label]="'Edit ' + drug.name"
+                  >
+                    <i class="bi bi-pencil-square"></i> Edit
+                  </button>
+                  <button
+                    class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1"
+                    (click)="confirmDelete(drug.id!)"
+                    [attr.aria-label]="'Delete ' + drug.name"
+                  >
+                    <i class="bi bi-trash"></i> Delete
+                  </button>
+                </div>
               </td>
             </tr>
+
+            <!-- Empty State -->
             <tr *ngIf="drugs.length === 0">
-              <td [attr.colspan]="isAdmin ? 7 : 6" class="text-center text-muted py-4 fst-italic">
-                No drugs found.
+              <td [attr.colspan]="isAdmin ? 7 : 6" class="text-center py-5 text-muted">
+                <i class="bi bi-box2-heart fs-4 me-2"></i>No drugs found in the inventory.
               </td>
             </tr>
           </tbody>

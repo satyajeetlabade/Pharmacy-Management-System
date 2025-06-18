@@ -1,8 +1,27 @@
-.landing-page header {
-  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+.feature-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 1rem;
+  background-color: #fff;
 }
 
-.landing-page h1,
-.landing-page h2 {
-  color: #2e7d32;
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.btn-light:hover, .btn-success:hover {
+  transform: scale(1.03);
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+h2 {
+  color: #212529;
+}
+
+.testimonial-card:hover {
+  background-color: #f8f9fa;
 }

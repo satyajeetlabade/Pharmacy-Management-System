@@ -1,0 +1,10 @@
+.kpi-card:hover {
+  transform: translateY(-2px);
+  transition: 0.2s ease-in-out;
+  background-color: #f8f9fa !important;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.table-row-hover:hover {
+  background-color: #f1fdf7 !important;
+}

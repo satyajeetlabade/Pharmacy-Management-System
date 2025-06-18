@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './lander.component.css'
 })
 export class LanderComponent {
-  imgUrl = 'assets/images/images.jfif';
+  imgUrl = 'assets/images/lander.png';
   currentYear = new Date().getFullYear();
 
 }

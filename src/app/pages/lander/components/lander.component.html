@@ -1,58 +1,125 @@
-<div class="landing-page d-flex flex-column min-vh-100">
+<div class="landing-page d-flex flex-column min-vh-100 bg-white">
 
   <!-- Hero Section -->
-  <header class="bg-light flex-grow-1 d-flex align-items-center">
-    <div class="container py-5">
+  <header class="hero-section bg-success text-white py-5 shadow-sm">
+    <div class="container">
       <div class="row align-items-center">
         <div class="col-md-6 text-center text-md-start mb-4 mb-md-0">
-          <h1 class="display-5 fw-bold">Welcome to Pharmacy Management System</h1>
-          <p class="lead text-muted">Your all-in-one Pharmacy Management Solution. Seamlessly manage suppliers, inventory, sales, and orders from a unified dashboard.</p>
-          <a routerLink="/login" class="btn btn-success btn-lg mt-3 px-4">
+          <h1 class="display-4 fw-bold">Pharmacy Management System</h1>
+          <p class="lead mb-4">
+            Simplify, streamline, and secure your entire pharmacy workflow—from inventory to billing—in one intelligent dashboard.
+          </p>
+          <a routerLink="/login" class="btn btn-light btn-lg px-4 py-2 shadow">
             <i class="bi bi-box-arrow-in-right me-2"></i> Get Started
           </a>
         </div>
         <div class="col-md-6 text-center">
-          <img [src]="imgUrl" alt="Pharmacy Illustration" class="img-fluid w-75">
+          <img [src]="imgUrl" alt="Pharmacy" class="img-fluid w-75 rounded shadow">
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Features -->
-  <section class="bg-white py-5">
+  <!-- Unified Features Section -->
+  <section class="features-section py-5 bg-light border-top">
     <div class="container text-center">
-      <h2 class="mb-4">Core Features</h2>
+      <h2 class="fw-bold mb-5">System Highlights</h2>
       <div class="row g-4">
+        
         <div class="col-md-4">
-          <div class="card shadow-sm border-0 h-100">
+          <div class="card h-100 border border-success shadow-sm feature-card">
+            <div class="card-body">
+              <i class="bi bi-box-seam fs-1 text-success mb-3"></i>
+              <h5 class="card-title">Inventory Monitoring</h5>
+              <p class="card-text text-muted">Real-time tracking of stock levels, expiry dates, and auto restocking alerts.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 border border-success shadow-sm feature-card">
+            <div class="card-body">
+              <i class="bi bi-receipt fs-1 text-success mb-3"></i>
+              <h5 class="card-title">Billing & Invoicing</h5>
+              <p class="card-text text-muted">Generate GST-compliant bills with integrated discounts and payment modes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 border border-success shadow-sm feature-card">
             <div class="card-body">
               <i class="bi bi-people-fill fs-1 text-success mb-3"></i>
               <h5 class="card-title">Supplier Management</h5>
-              <p class="card-text text-muted">Add, edit, and track supplier details for efficient procurement handling.</p>
+              <p class="card-text text-muted">Manage vendor records, procurement details, and order histories seamlessly.</p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card shadow-sm border-0 h-100">
+
+        <div class="col-md-6">
+          <div class="card h-100 border border-success shadow-sm feature-card">
             <div class="card-body">
-              <i class="bi bi-box-seam fs-1 text-success mb-3"></i>
-              <h5 class="card-title">Inventory Control</h5>
-              <p class="card-text text-muted">Monitor drug stock levels, expiry dates, and restock alerts effortlessly.</p>
+              <i class="bi bi-shield-lock fs-1 text-success mb-3"></i>
+              <h5 class="card-title">Secure Access</h5>
+              <p class="card-text text-muted">Role-based login for staff and admins with full activity logs and audit trails.</p>
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card shadow-sm border-0 h-100">
+
+        <div class="col-md-6">
+          <div class="card h-100 border border-success shadow-sm feature-card">
             <div class="card-body">
               <i class="bi bi-bar-chart-line-fill fs-1 text-success mb-3"></i>
-              <h5 class="card-title">Sales Reports</h5>
-              <p class="card-text text-muted">Analyze trends and performance with detailed real-time sales summaries.</p>
+              <h5 class="card-title">Analytics & Reports</h5>
+              <p class="card-text text-muted">Visual reports on sales, inventory flow, and financial performance metrics.</p>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
-  
+ <section class="testimonials-section py-5 bg-white border-top">
+    <div class="container">
+      <h2 class="fw-bold text-center mb-5">What Our Clients Say</h2>
+      <div class="row g-4">
+
+        <div class="col-md-4">
+          <div class="card testimonial-card border border-secondary shadow-sm h-100 feature-card">
+            <div class="card-body">
+              <p class="text-muted fst-italic">
+                “Our pharmacy operations became 70% faster and we reduced out-of-stock issues significantly!”
+              </p>
+              <div class="fw-bold text-success mt-3">— Dr. Shalini Gupta, MedPlus</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card testimonial-card border border-secondary shadow-sm h-100 feature-card">
+            <div class="card-body">
+              <p class="text-muted fst-italic">
+                “The inventory and billing modules are incredibly intuitive. Our team loves the dashboard.”
+              </p>
+              <div class="fw-bold text-success mt-3">— Mr. Rohit Sharma, GreenWell Pharmacy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card testimonial-card border border-secondary shadow-sm h-100 feature-card">
+            <div class="card-body">
+              <p class="text-muted fst-italic">
+                “We’ve been able to automate our purchase orders, reducing manual errors by over 90%.”
+              </p>
+              <div class="fw-bold text-success mt-3">— Ms. Priya Nair, LifeLine Drugs</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </div>

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserRole } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
@@ -11,7 +11,7 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [ReactiveFormsModule, CommonModule]
+  imports: [ReactiveFormsModule, CommonModule, RouterModule]
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -30,7 +30,7 @@ export class RegisterComponent {
     private toastr: ToastrService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', Validators.required, Validators.minLength(3)],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
@@ -46,6 +46,7 @@ export class RegisterComponent {
     return this.registerForm.get('password');
   }
 
+  
   onSubmit() {
     this.registerError = null;
     if (this.registerForm.valid) {

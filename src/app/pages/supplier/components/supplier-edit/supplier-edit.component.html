@@ -1,43 +1,105 @@
 <div class="container py-5">
   <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6">
-      <div class="card shadow-sm border-0 rounded-4">
-        <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
-          <i class="bi bi-pencil-square me-2 fs-5"></i>
-          <h5 class="mb-0">Edit Supplier</h5>
+    <div class="col-lg-10">
+      <div class="row g-4 align-items-stretch">
+
+        <!-- Left Panel: Supplier Context & Tips -->
+        <div class="col-md-5 d-flex flex-column justify-content-center bg-success text-white rounded-start-4 p-4 shadow">
+          <div>
+            <h3 class="fw-bold mb-3">
+              <i class="bi bi-pencil-square me-2 fs-3"></i> Edit Supplier
+            </h3>
+            <ul class="list-unstyled">
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-check2-square me-2 fs-5"></i>
+                <span>Ensure contact details are up-to-date.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-envelope-paper me-2 fs-5"></i>
+                <span>Verify the email for order communications.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-telephone me-2 fs-5"></i>
+                <span>Confirm phone number for urgent supply queries.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-geo me-2 fs-5"></i>
+                <span>Update address to prevent delivery errors.</span>
+              </li>
+            </ul>
+          </div>
+          <img src="https://cdn-icons-png.flaticon.com/512/2301/2301121.png"
+               alt="Edit Supplier Icon"
+               class="img-fluid mt-4 mx-auto d-block"
+               style="max-height: 140px; transition: transform 0.3s ease;"
+               onmouseover="this.style.transform='scale(1.1)';"
+               onmouseout="this.style.transform='scale(1)';" />
         </div>
 
-        <div class="card-body bg-white">
-          <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
-
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Name</label>
-              <input formControlName="name" class="form-control" />
+        <!-- Right Panel: Edit Form -->
+        <div class="col-md-7">
+          <div class="card shadow rounded-end-4 border-0 h-100">
+            <div class="card-header bg-light rounded-top-end-4 border-bottom d-flex align-items-center gap-2">
+              <i class="bi bi-pencil-square text-success fs-5"></i>
+              <h5 class="mb-0 text-success">Edit Supplier</h5>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Email</label>
-              <input formControlName="contactEmail" type="email" class="form-control" />
-            </div>
+            <div class="card-body bg-white px-4 py-4">
+              <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" novalidate>
 
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Contact Number</label>
-              <input formControlName="contactNumber" class="form-control" />
-            </div>
+                <!-- Name -->
+                <div class="form-floating mb-3">
+                  <input id="name" type="text" formControlName="name" class="form-control" placeholder="Supplier Name"
+                    [ngClass]="{ 'is-invalid': supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched }" />
+                  <label for="name"><i class="bi bi-person me-1"></i> Name</label>
+                  <div *ngIf="supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched" class="invalid-feedback">
+                    Name must be 2–100 characters.
+                  </div>
+                </div>
 
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Address</label>
-              <textarea formControlName="address" class="form-control" rows="3"></textarea>
-            </div>
+                <!-- Email -->
+                <div class="form-floating mb-3">
+                  <input id="contactEmail" type="email" formControlName="contactEmail" class="form-control" placeholder="Email"
+                    [ngClass]="{ 'is-invalid': supplierForm.get('contactEmail')?.invalid && supplierForm.get('contactEmail')?.touched }" />
+                  <label for="contactEmail"><i class="bi bi-envelope me-1"></i> Email</label>
+                  <div *ngIf="supplierForm.get('contactEmail')?.invalid && supplierForm.get('contactEmail')?.touched" class="invalid-feedback">
+                    Enter a valid email.
+                  </div>
+                </div>
 
-            <div class="text-end">
-              <button class="btn btn-success px-4" [disabled]="supplierForm.invalid">
-                <i class="bi bi-save me-1"></i>Update
-              </button>
-            </div>
+                <!-- Phone -->
+                <div class="form-floating mb-3">
+                  <input id="contactNumber" type="text" formControlName="contactNumber" class="form-control" placeholder="Phone Number"
+                    [ngClass]="{ 'is-invalid': supplierForm.get('contactNumber')?.invalid && supplierForm.get('contactNumber')?.touched }" />
+                  <label for="contactNumber"><i class="bi bi-telephone me-1"></i> Contact Number</label>
+                  <div *ngIf="supplierForm.get('contactNumber')?.invalid && supplierForm.get('contactNumber')?.touched" class="invalid-feedback">
+                    Enter a valid phone number.
+                  </div>
+                </div>
 
-          </form>
+                <!-- Address -->
+                <div class="form-floating mb-4">
+                  <textarea id="address" formControlName="address" class="form-control" placeholder="Address" style="height: 100px;"></textarea>
+                  <label for="address"><i class="bi bi-geo-alt me-1"></i> Address</label>
+                </div>
+
+                <!-- Submit -->
+                <div class="text-end">
+                  <button class="btn btn-success btn-lg px-4 shadow-sm"
+                          type="submit"
+                          [disabled]="supplierForm.invalid"
+                          style="transition: background-color 0.3s ease, transform 0.2s ease;"
+                          onmouseover="this.style.backgroundColor='#157347'; this.style.transform='scale(1.03)'"
+                          onmouseout="this.style.backgroundColor=''; this.style.transform='scale(1)'">
+                    <i class="bi bi-save me-1"></i> Update
+                  </button>
+                </div>
+
+              </form>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
