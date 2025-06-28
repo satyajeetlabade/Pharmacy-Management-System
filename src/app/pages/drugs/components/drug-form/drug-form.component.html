@@ -1,80 +1,150 @@
-<div class="container py-5" style="max-width: 600px;">
-  <div class="card shadow-sm rounded-4 border-0">
-    <div class="card-header bg-success text-white rounded-top-4 d-flex align-items-center">
-      <i class="bi bi-capsule-plus me-2 fs-5"></i>
-      <h5 class="mb-0">Create New Drug</h5>
-    </div>
-    <div class="card-body bg-white">
-      <form [formGroup]="drugForm" (ngSubmit)="onSubmit()">
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="row g-4 align-items-stretch">
 
-        <div class="mb-3">
-          <label for="name" class="form-label fw-semibold">Name</label>
-          <input formControlName="name" id="name" type="text" class="form-control"
-            [ngClass]="{ 'is-invalid': drugForm.get('name')?.invalid && drugForm.get('name')?.touched }" />
-          <div *ngIf="drugForm.get('name')?.invalid && drugForm.get('name')?.touched" class="invalid-feedback">
-            Name is required.
+        <!-- Left Panel: Drug Branding & Info -->
+        <div
+          class="col-md-5 d-flex flex-column justify-content-center bg-success align-items-center text-white rounded-start-4 p-4 shadow">
+          <div>
+            <h3 class="fw-bold mb-3">
+              <i class="bi bi-capsule-plus me-2 fs-3"></i> Drug Management
+            </h3>
+            <ul class="list-unstyled">
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-clipboard-data me-2 fs-5"></i>
+                <span>Maintain accurate drug details for inventory control.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-calendar2-event me-2 fs-5"></i>
+                <span>Track expiry dates to ensure patient safety.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-bar-chart-line me-2 fs-5"></i>
+                <span>Monitor pricing and stock trends efficiently.</span>
+              </li>
+              <li class="mb-2 d-flex align-items-start">
+                <i class="bi bi-tag me-2 fs-5"></i>
+                <span>Assign drugs to proper categories.</span>
+              </li>
+            </ul>
           </div>
+          <img src="https://cdn-icons-png.flaticon.com/512/9733/9733525.png" alt="Drug Icon"
+            class="img-fluid mt-4 mx-auto d-block" style="max-height: 140px; transition: transform 0.3s ease;"
+            onmouseover="this.style.transform='scale(1.1)';" onmouseout="this.style.transform='scale(1)';" />
         </div>
 
-        <div class="mb-3">
-          <label for="description" class="form-label fw-semibold">Description</label>
-          <textarea formControlName="description" id="description" class="form-control" rows="3"
-            [ngClass]="{ 'is-invalid': drugForm.get('description')?.invalid && drugForm.get('description')?.touched }"></textarea>
-          <div *ngIf="drugForm.get('description')?.invalid && drugForm.get('description')?.touched" class="invalid-feedback">
-            Description is required.
-          </div>
-        </div>
+        <!-- Right Panel: Drug Form -->
+        <div class="col-md-7">
+          <div class="card shadow rounded-end-4 border-0 h-100">
+            <div class="card-header bg-light rounded-top-end-4 border-bottom d-flex align-items-center gap-2">
+              <i class="bi bi-plus-circle fs-5 text-success"></i>
+              <h5 class="mb-0 text-success">Add Drug</h5>
+            </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="price" class="form-label fw-semibold">Price (₹)</label>
-            <input formControlName="price" id="price" type="number" step="0.01" class="form-control"
-              [ngClass]="{ 'is-invalid': drugForm.get('price')?.invalid && drugForm.get('price')?.touched }" />
-            <div *ngIf="drugForm.get('price')?.invalid && drugForm.get('price')?.touched" class="invalid-feedback">
-              Enter a valid price.
+            <div class="card-body bg-white px-4 py-4">
+              <form [formGroup]="drugForm" (ngSubmit)="onSubmit()">
+
+                <!-- Name -->
+                <div class="form-floating mb-3">
+                  <input type="text" id="name" formControlName="name" class="form-control" placeholder="Drug Name"
+                    [ngClass]="{ 'is-invalid': drugForm.get('name')?.invalid && drugForm.get('name')?.touched }" />
+                  <label for="name"><i class="bi bi-capsule me-1"></i> Name</label>
+                  <div *ngIf="drugForm.get('name')?.invalid && drugForm.get('name')?.touched" class="invalid-feedback">
+                    Name is required.
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-floating mb-3">
+                  <textarea id="description" formControlName="description" class="form-control"
+                    placeholder="Description" style="height: 100px;"
+                    [ngClass]="{ 'is-invalid': drugForm.get('description')?.invalid && drugForm.get('description')?.touched }"></textarea>
+                  <label for="description"><i class="bi bi-info-circle me-1"></i> Description</label>
+                  <div *ngIf="drugForm.get('description')?.invalid && drugForm.get('description')?.touched"
+                    class="invalid-feedback">
+                    Description is required.
+                  </div>
+                </div>
+
+                <div class="row">
+                  <!-- Price -->
+                  <div class="col-md-6 mb-3 form-floating">
+                    <input type="number" id="price" formControlName="price" class="form-control" placeholder="Price"
+                      [ngClass]="{ 'is-invalid': drugForm.get('price')?.invalid && drugForm.get('price')?.touched }" />
+                    <label for="price"><i class="bi bi-currency-rupee me-1"></i> Price (₹)</label>
+                    <div *ngIf="drugForm.get('price')?.invalid && drugForm.get('price')?.touched"
+                      class="invalid-feedback">
+                      Enter a valid price.
+                    </div>
+                  </div>
+
+                  <!-- Quantity -->
+                  <div class="col-md-6 mb-3 form-floating">
+                    <input type="number" id="quantity" formControlName="quantityInStock" class="form-control"
+                      placeholder="Quantity"
+                      [ngClass]="{ 'is-invalid': drugForm.get('quantityInStock')?.invalid && drugForm.get('quantityInStock')?.touched }" />
+                    <label for="quantity"><i class="bi bi-box-seam me-1"></i> Quantity</label>
+                    <div *ngIf="drugForm.get('quantityInStock')?.invalid && drugForm.get('quantityInStock')?.touched"
+                      class="invalid-feedback">
+                      Quantity is required.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Expiry Date -->
+                <div class="form-floating mb-3">
+                  <input type="date" id="expiryDate" formControlName="expiryDate" class="form-control"
+                    placeholder="Expiry Date" [ngClass]="{
+      'is-invalid': drugForm.get('expiryDate')?.invalid && drugForm.get('expiryDate')?.touched
+    }" />
+                  <label for="expiryDate"><i class="bi bi-calendar-x me-1"></i> Expiry Date</label>
+
+                  <div *ngIf="drugForm.get('expiryDate')?.errors?.['required'] && drugForm.get('expiryDate')?.touched"
+                    class="invalid-feedback">
+                    Expiry date is required.
+                  </div>
+
+                  <div
+                    *ngIf="drugForm.get('expiryDate')?.errors?.['notFutureDate'] && drugForm.get('expiryDate')?.touched"
+                    class="invalid-feedback">
+                    Expiry date must be a future date.
+                  </div>
+                </div>
+
+                <!-- Drug Type -->
+                <div class="form-floating mb-4">
+                  <select formControlName="drugType" id="drugType" class="form-select"
+                    [ngClass]="{ 'is-invalid': drugForm.get('drugType')?.invalid && drugForm.get('drugType')?.touched }">
+                    <option [ngValue]="null" disabled>Select drug type</option>
+                    <option *ngFor="let type of drugTypes" [ngValue]="type.value">
+                      {{ type.key }}
+                    </option>
+                  </select>
+                  <label for="drugType"><i class="bi bi-tags me-1"></i> Drug Type</label>
+                  <div *ngIf="drugForm.get('drugType')?.invalid && drugForm.get('drugType')?.touched"
+                    class="invalid-feedback">
+                    Please select a drug type.
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-end">
+                  <button class="btn btn-success btn-lg px-4 shadow-sm" type="submit" [disabled]="drugForm.invalid"
+                    data-bs-toggle="tooltip" data-bs-placement="left" title="Add drug to system"
+                    style="transition: background-color 0.3s ease, transform 0.2s ease;"
+                    onmouseover="this.style.backgroundColor='#157347'; this.style.transform='scale(1.03)'"
+                    onmouseout="this.style.backgroundColor=''; this.style.transform='scale(1)'">
+                    <i class="bi bi-check-circle me-1"></i> Submit
+                  </button>
+                </div>
+
+              </form>
             </div>
           </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="quantity" class="form-label fw-semibold">Quantity In Stock</label>
-            <input formControlName="quantityInStock" id="quantity" type="number" class="form-control"
-              [ngClass]="{ 'is-invalid': drugForm.get('quantityInStock')?.invalid && drugForm.get('quantityInStock')?.touched }" />
-            <div *ngIf="drugForm.get('quantityInStock')?.invalid && drugForm.get('quantityInStock')?.touched" class="invalid-feedback">
-              Quantity is required.
-            </div>
-          </div>
         </div>
 
-        <div class="mb-3">
-          <label for="expiryDate" class="form-label fw-semibold">Expiry Date</label>
-          <input formControlName="expiryDate" id="expiryDate" type="date" class="form-control"
-            [ngClass]="{ 'is-invalid': drugForm.get('expiryDate')?.invalid && drugForm.get('expiryDate')?.touched }" />
-          <div *ngIf="drugForm.get('expiryDate')?.invalid && drugForm.get('expiryDate')?.touched" class="invalid-feedback">
-            Please select a valid expiry date.
-          </div>
-        </div>
-
-        <div class="mb-4">
-          <label for="drugType" class="form-label fw-semibold">Drug Type</label>
-          <select formControlName="drugType" id="drugType" class="form-select"
-            [ngClass]="{ 'is-invalid': drugForm.get('drugType')?.invalid && drugForm.get('drugType')?.touched }">
-            <option [ngValue]="null" disabled>Select drug type</option>
-            <option *ngFor="let type of drugTypes" [ngValue]="type.value">
-              {{ type.key }}
-            </option>
-          </select>
-          <div *ngIf="drugForm.get('drugType')?.invalid && drugForm.get('drugType')?.touched" class="invalid-feedback">
-            Please select a drug type.
-          </div>
-        </div>
-
-        <div class="text-end">
-          <button class="btn btn-success px-4" type="submit" [disabled]="drugForm.invalid">
-            <i class="bi bi-check-circle me-1"></i>Create Drug
-          </button>
-        </div>
-
-      </form>
+      </div>
     </div>
   </div>
 </div>

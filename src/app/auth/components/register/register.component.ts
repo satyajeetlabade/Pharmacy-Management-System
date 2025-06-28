@@ -5,6 +5,7 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UserRole } from '../../models/user.model';
 import { AuthService } from '../../services/auth.service';
+import { noWhitespaceValidator } from '../../../validators/no-whitespace.validator';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,7 @@ export class RegisterComponent {
     private toastr: ToastrService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', Validators.required, Validators.minLength(3)],
+      name: ['', [Validators.required, Validators.minLength(3), noWhitespaceValidator()]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [
         Validators.required,
@@ -68,4 +69,6 @@ export class RegisterComponent {
       });
     }
   }
+
+  
 }

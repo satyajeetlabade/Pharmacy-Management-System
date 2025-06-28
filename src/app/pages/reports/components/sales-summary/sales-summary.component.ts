@@ -17,6 +17,15 @@ export class SalesSummaryComponent {
 
   constructor(private reportService: ReportService) {}
 
+get isDateRangeInvalid(): boolean {
+  if (!this.fromDate || !this.toDate) return false;
+
+  const from = new Date(this.fromDate);
+  const to = new Date(this.toDate);
+
+  return from >= to;
+}
+
   fetchSummary() {
     if (!this.fromDate || !this.toDate) {
       this.error = 'Both From Date and To Date are required.';

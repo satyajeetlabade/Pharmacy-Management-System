@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { DrugType } from "../../models/drug.model";
 import { DrugService } from "../../services/drug.service";
 import { ToastrService } from "ngx-toastr";
+import { futureDateValidator } from "../../../../validators/future-date.validator";
 
 @Component({
   selector: 'app-drug-form',
@@ -35,7 +36,7 @@ export class DrugFormComponent implements OnInit {
       description: [''],
       price: [0, [Validators.required, Validators.min(0.01)]],
       quantityInStock: [0, [Validators.required, Validators.min(0.01)]],
-      expiryDate: ['', Validators.required],
+      expiryDate: ['', Validators.required, futureDateValidator()],
       drugType: [null, Validators.required],
     });
 

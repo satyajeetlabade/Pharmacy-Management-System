@@ -7,49 +7,38 @@
 
     <div class="card-body bg-white">
 
-<!-- Enhanced Date Filters -->
-<form class="row gy-3 gx-4 align-items-end mb-5 px-3 py-3 rounded shadow-sm bg-light border" (ngSubmit)="fetchSummary()">
-  <!-- From Date -->
-  <div class="col-md-4">
-    <label for="fromDate" class="form-label fw-semibold text-dark">
-      <i class="bi bi-calendar-check me-1 text-success"></i>From Date
-    </label>
-    <input
-      type="date"
-      id="fromDate"
-      [(ngModel)]="fromDate"
-      name="fromDate"
-      class="form-control border-success shadow-sm"
-      required
-    />
-  </div>
+      <form class="row gy-3 gx-4 align-items-end mb-5 px-3 py-3 rounded shadow-sm bg-light border"
+        (ngSubmit)="fetchSummary()">
+        <div class="col-md-4">
+          <label for="fromDate" class="form-label fw-semibold text-dark">
+            <i class="bi bi-calendar-check me-1 text-success"></i>From Date
+          </label>
+          <input type="date" id="fromDate" [(ngModel)]="fromDate" name="fromDate"
+            class="form-control border-success shadow-sm" required [ngClass]="{ 'is-invalid': isDateRangeInvalid }" />
+        </div>
 
-  <!-- To Date -->
-  <div class="col-md-4">
-    <label for="toDate" class="form-label fw-semibold text-dark">
-      <i class="bi bi-calendar-check-fill me-1 text-success"></i>To Date
-    </label>
-    <input
-      type="date"
-      id="toDate"
-      [(ngModel)]="toDate"
-      name="toDate"
-      class="form-control border-success shadow-sm"
-      required
-    />
-  </div>
+        <div class="col-md-4">
+          <label for="toDate" class="form-label fw-semibold text-dark">
+            <i class="bi bi-calendar-check-fill me-1 text-success"></i>To Date
+          </label>
+          <input type="date" id="toDate" [(ngModel)]="toDate" name="toDate"
+            class="form-control border-success shadow-sm" required [ngClass]="{ 'is-invalid': isDateRangeInvalid }" />
+        </div>
 
-  <!-- Submit Button -->
-  <div class="col-md-4 d-grid">
-    <button
-      type="submit"
-      class="btn btn-success fw-semibold shadow-sm"
-      [disabled]="!fromDate || !toDate"
-    >
-      <i class="bi bi-graph-up-arrow me-2"></i>Generate Report
-    </button>
-  </div>
-</form>
+        <!-- Validation Message -->
+        <div class="col-md-8" *ngIf="isDateRangeInvalid">
+          <div class="text-danger fw-semibold mt-1">
+            To Date must be greater than From Date.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="col-md-4 d-grid">
+          <button type="submit" class="btn btn-success fw-semibold shadow-sm" [disabled]="!fromDate || !toDate || isDateRangeInvalid">
+            <i class="bi bi-graph-up-arrow me-2"></i>Generate Report
+          </button>
+        </div>
+      </form>
 
 
       <!-- Error Message -->
@@ -57,111 +46,109 @@
         <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ error }}
       </div>
 
-<!-- Sales Summary Section -->
-<div *ngIf="summary" class="text-dark px-2">
+      <!-- Sales Summary Section -->
+      <div *ngIf="summary" class="text-dark px-2">
 
-  <!-- KPI Cards -->
-  <div class="row g-4 mb-4">
-    <!-- Total Orders -->
-    <div class="col-md-4">
-      <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
-        <div class="card-body">
-          <h6 class="text-secondary text-uppercase small mb-1">Total Orders</h6>
-          <h4 class="fw-bold d-flex align-items-center">
-            <i class="bi bi-bag-check-fill text-success fs-4 me-2"></i>
-            {{ summary.totalOrders }}
-          </h4>
-        </div>
-      </div>
-    </div>
+        <!-- KPI Cards -->
+        <div class="row g-4 mb-4">
+          <!-- Total Orders -->
+          <div class="col-md-4">
+            <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
+              <div class="card-body">
+                <h6 class="text-secondary text-uppercase small mb-1">Total Orders</h6>
+                <h4 class="fw-bold d-flex align-items-center">
+                  <i class="bi bi-bag-check-fill text-success fs-4 me-2"></i>
+                  {{ summary.totalOrders }}
+                </h4>
+              </div>
+            </div>
+          </div>
 
-    <!-- Total Revenue -->
-    <div class="col-md-4">
-      <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
-        <div class="card-body">
-          <h6 class="text-secondary text-uppercase small mb-1">Total Revenue</h6>
-          <h4 class="fw-bold text-success d-flex align-items-center">
-            <i class="bi bi-currency-rupee text-success fs-4 me-2"></i>
-            {{ summary.totalRevenue | currency:'INR' }}
-          </h4>
-        </div>
-      </div>
-    </div>
+          <!-- Total Revenue -->
+          <div class="col-md-4">
+            <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
+              <div class="card-body">
+                <h6 class="text-secondary text-uppercase small mb-1">Total Revenue</h6>
+                <h4 class="fw-bold text-success d-flex align-items-center">
+                  <i class="bi bi-currency-rupee text-success fs-4 me-2"></i>
+                  {{ summary.totalRevenue | currency:'INR' }}
+                </h4>
+              </div>
+            </div>
+          </div>
 
-    <!-- Items Sold -->
-    <div class="col-md-4">
-      <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
-        <div class="card-body">
-          <h6 class="text-secondary text-uppercase small mb-1">Items Sold</h6>
-          <h4 class="fw-bold d-flex align-items-center">
-            <i class="bi bi-box-fill text-success fs-4 me-2"></i>
-            {{ summary.totalItemsSold }}
-          </h4>
+          <!-- Items Sold -->
+          <div class="col-md-4">
+            <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
+              <div class="card-body">
+                <h6 class="text-secondary text-uppercase small mb-1">Items Sold</h6>
+                <h4 class="fw-bold d-flex align-items-center">
+                  <i class="bi bi-box-fill text-success fs-4 me-2"></i>
+                  {{ summary.totalItemsSold }}
+                </h4>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- More KPIs -->
-  <div class="row g-4 mb-5">
-    <div class="col-md-6">
-      <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
-        <div class="card-body">
-          <h6 class="text-secondary text-uppercase small mb-1">Avg. Order Value</h6>
-          <h4 class="fw-bold text-primary d-flex align-items-center">
-            <i class="bi bi-bar-chart-line-fill fs-4 me-2"></i>
-            {{ summary.averageOrderValue | currency:'INR' }}
-          </h4>
+        <!-- More KPIs -->
+        <div class="row g-4 mb-5">
+          <div class="col-md-6">
+            <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
+              <div class="card-body">
+                <h6 class="text-secondary text-uppercase small mb-1">Avg. Order Value</h6>
+                <h4 class="fw-bold text-primary d-flex align-items-center">
+                  <i class="bi bi-bar-chart-line-fill fs-4 me-2"></i>
+                  {{ summary.averageOrderValue | currency:'INR' }}
+                </h4>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
+              <div class="card-body">
+                <h6 class="text-secondary text-uppercase small mb-1">Distinct Drugs Sold</h6>
+                <h4 class="fw-bold d-flex align-items-center">
+                  <i class="bi bi-capsule-pill text-danger fs-4 me-2"></i>
+                  {{ summary.distinctDrugsSold }}
+                </h4>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card kpi-card bg-white border-0 shadow-sm rounded-4 h-100 hover-shadow">
-        <div class="card-body">
-          <h6 class="text-secondary text-uppercase small mb-1">Distinct Drugs Sold</h6>
-          <h4 class="fw-bold d-flex align-items-center">
-            <i class="bi bi-capsule-pill text-danger fs-4 me-2"></i>
-            {{ summary.distinctDrugsSold }}
-          </h4>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Top Selling Drugs -->
-  <div class="mb-5">
-    <h5 class="fw-semibold border-bottom pb-2 mb-3"><i class="bi bi-star-fill text-warning me-2"></i>Top Selling Drugs</h5>
-    <ul class="list-group shadow-sm rounded-3">
-      <li
-        *ngFor="let drug of summary.topSellingDrugs"
-        class="list-group-item d-flex justify-content-between align-items-center bg-light-subtle"
-      >
-        <div class="fw-semibold text-capitalize">
-          <i class="bi bi-capsule text-primary me-2"></i>{{ drug.drugName }}
+        <!-- Top Selling Drugs -->
+        <div class="mb-5">
+          <h5 class="fw-semibold border-bottom pb-2 mb-3"><i class="bi bi-star-fill text-warning me-2"></i>Top Selling
+            Drugs</h5>
+          <ul class="list-group shadow-sm rounded-3">
+            <li *ngFor="let drug of summary.topSellingDrugs"
+              class="list-group-item d-flex justify-content-between align-items-center bg-light-subtle">
+              <div class="fw-semibold text-capitalize">
+                <i class="bi bi-capsule text-primary me-2"></i>{{ drug.drugName }}
+              </div>
+              <div>
+                <span class="badge bg-success-subtle text-dark border me-2">{{ drug.unitsSold }} units</span>
+                <span class="badge bg-success text-light">{{ drug.revenue | currency:'INR' }}</span>
+              </div>
+            </li>
+          </ul>
         </div>
+
+        <!-- Sales by Day -->
         <div>
-          <span class="badge bg-success-subtle text-dark border me-2">{{ drug.unitsSold }} units</span>
-          <span class="badge bg-success text-light">{{ drug.revenue | currency:'INR' }}</span>
+          <h5 class="fw-semibold border-bottom pb-2 mb-3"><i
+              class="bi bi-calendar-event-fill text-primary me-2"></i>Sales by Day</h5>
+          <ul class="list-group shadow-sm rounded-3">
+            <li *ngFor="let day of summary.salesByDay"
+              class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-calendar3 text-success me-2"></i>{{ day.day | date:'mediumDate' }}</span>
+              <span class="badge bg-info text-dark rounded-pill">{{ day.revenue | currency:'INR' }}</span>
+            </li>
+          </ul>
         </div>
-      </li>
-    </ul>
-  </div>
 
-  <!-- Sales by Day -->
-  <div>
-    <h5 class="fw-semibold border-bottom pb-2 mb-3"><i class="bi bi-calendar-event-fill text-primary me-2"></i>Sales by Day</h5>
-    <ul class="list-group shadow-sm rounded-3">
-      <li
-        *ngFor="let day of summary.salesByDay"
-        class="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span><i class="bi bi-calendar3 text-success me-2"></i>{{ day.day | date:'mediumDate' }}</span>
-        <span class="badge bg-info text-dark rounded-pill">{{ day.revenue | currency:'INR' }}</span>
-      </li>
-    </ul>
-  </div>
-
-</div>
+      </div>
 
     </div>
   </div>
@@ -172,9 +159,10 @@
 <div *ngIf="!summary && !error" class="text-center text-muted py-5">
   <i class="bi bi-graph-up-arrow display-3 text-success mb-3"></i>
   <h4 class="mb-3">Analyze Your Sales Performance</h4>
-  <p class="lead">Select a date range and click <strong>“Get Report”</strong> to view insightful data on your pharmacy’s performance.</p>
+  <p class="lead">Select a date range and click <strong>“Get Report”</strong> to view insightful data on your pharmacy’s
+    performance.</p>
 
- 
+
 
   <p class="mt-4 small text-muted">
     This report helps optimize inventory planning and boosts your business visibility.
