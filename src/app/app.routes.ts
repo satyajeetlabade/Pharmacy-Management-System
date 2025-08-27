@@ -15,7 +15,7 @@ import { SupplierEditComponent } from './pages/supplier/components/supplier-edit
 import { SupplierFormComponent } from './pages/supplier/components/supplier-form/supplier-form.component';
 import { SupplierListComponent } from './pages/supplier/components/supplier-list/supplier-list.component';
 import { UnauthorizedComponent } from './shared/unauthorized/unauthorized.component';
-import { AuthGuard } from './core/guards/auth/auth.guard.guard';
+import { AuthGuard } from './core/guards/auth/auth.guard';
 import { ErrorComponent } from './pages/error/components/error/error.component';
 import { RegisterComponent } from './auth/components/register/register.component';
 

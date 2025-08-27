@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ErrorComponent } from './error.component';
 
 describe('ErrorComponent', () => {
@@ -8,16 +7,21 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ErrorComponent]
-    })
-    .compileComponents();
-    
+      imports: [ErrorComponent] // standalone component
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call location.reload when reloadPage is invoked', () => {
+    spyOn(location, 'reload');
+    component.reloadPage();
+    expect(location.reload).toHaveBeenCalled();
   });
 });

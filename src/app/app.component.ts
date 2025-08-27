@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   });
   }
   hideFooter(): boolean {
-    const hiddenRoutes = ['/login', '/register',['/welcome']];
+    const hiddenRoutes = ['/login', '/register','/welcome'];
     return hiddenRoutes.includes(this.router.url);
   }
 
